@@ -63,13 +63,15 @@ jobs:
           echo "${{ github.repository }}" > git_context/repo.atf
       - name: Save github context info(For pull request)
         if: ${{ github.event_name == 'pull_request' || github.event_name == 'pull_request_target' }}
+        env:
+          REF: ${{ github.event.pull_request.head.ref }}
         run: |
-          echo "${{ github.event.pull_request.head.ref }}"
+          echo "$REF"
           echo "${{ github.event.pull_request.head.repo.full_name }}"
           echo "${{ github.event.number }}"
           echo "${{ github.event.pull_request.head.sha }}"
           mkdir git_context
-          echo "${{ github.event.pull_request.head.ref }}" > git_context/ref.atf
+          echo "$REF" > git_context/ref.atf
           echo "${{ github.event.pull_request.head.repo.full_name }}" > git_context/repo.atf
           echo "${{ github.event.number }}" > git_context/pr.atf
           echo "${{ github.event.pull_request.head.sha }}" > git_context/sha.atf
